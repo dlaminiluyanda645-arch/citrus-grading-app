@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citrus Grading System</title>
+
+<link rel="stylesheet" href="style.css">
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>CITRUS GRADING SYSTEM</h1>
+
+<div class="top-controls">
+
+<button onclick="clearForm()">New Form</button>
+
+<button onclick="saveRecord()">Save Record</button>
+
+<button onclick="downloadCSV()">Export CSV</button>
+
+<button onclick="generatePDF()">Generate PDF</button>
+
+<button onclick="window.print()">Print</button>
+
+</div>
+
+<section class="form-section">
+
+<h2>Grading Information</h2>
+
+<div class="grid">
+
+<div>
+<label>Date</label>
+<input type="date" id="date">
+</div>
+
+<div>
+<label>Date Code</label>
+<input type="text" id="dateCode">
+</div>
+
+<div>
+<label>Shift</label>
+<select id="shift">
+<option>Day</option>
+<option>Night</option>
+</select>
+</div>
+
+<div>
+<label>Record No</label>
+<input type="text" id="recordNumber" readonly>
+</div>
+
+<div>
+<label>Supplier</label>
+<input type="text" id="supplier">
+</div>
+
+<div>
+<label>Variety</label>
+<input type="text" id="variety">
+</div>
+
+<div>
+<label>Control No</label>
+<input type="text" id="controlNo">
+</div>
+
+<div>
+<label>Weighed Tonnage (kg)</label>
+<input type="number" id="weighed">
+</div>
+
+<div>
+<label>Average Box Weight (kg)</label>
+<input type="number" id="avgWeight">
+</div>
+
+<div>
+<label>M Bins</label>
+<input type="number" id="mBins">
+</div>
+
+<div>
+<label>L Bins</label>
+<input type="number" id="lBins">
+</div>
+
+<div>
+<label>Storage Bay M</label>
+<input type="number" min="1" max="10" id="storageM">
+</div>
+
+<div>
+<label>Storage Bay L</label>
+<input type="number" min="1" max="10" id="storageL">
+</div>
+
+<div>
+<label>Fruit To Juice Bin No</label>
+<input type="text" id="juiceBin">
+</div>
+
+<div>
+<label>Recorder</label>
+<input type="text" id="recorder">
+</div>
+
+<div>
+<label>Supervisor</label>
+<input type="text" id="supervisor">
+</div>
+
+<div>
+<label>Weighbridge</label>
+<input type="text" id="weighbridge">
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>Segmenting Fruit Tonnage</h2>
+
+<table>
+
+<tr>
+<th></th>
+<th>M</th>
+<th>L</th>
+</tr>
+
+<tr>
+<td>No. Bins</td>
+<td><input id="displayMBins" readonly></td>
+<td><input id="displayLBins" readonly></td>
+</tr>
+
+<tr>
+<td>Tonnage (kg)</td>
+<td><input id="mTonnage" readonly></td>
+<td><input id="lTonnage" readonly></td>
+</tr>
+
+</table>
+
+</section>
+
+<section>
+
+<h2>Totals</h2>
+
+<div class="results">
+
+<div class="result-card">
+<h3>Total Segmented</h3>
+<p id="totalTonnage">0</p>
+</div>
+
+<div class="result-card">
+<h3>Fruit To Juice</h3>
+<p id="fruitJuice">0</p>
+</div>
+
+<div class="result-card">
+<h3>M %</h3>
+<p id="mPercent">0%</p>
+</div>
+
+<div class="result-card">
+<h3>L %</h3>
+<p id="lPercent">0%</p>
+</div>
+
+<div class="result-card">
+<h3>Juice %</h3>
+<p id="juicePercent">0%</p>
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>End Of Shift Juice Balances</h2>
+
+<table>
+
+<tr>
+<th>Bin</th>
+<th>Capacity/Tonnage</th>
+<th>Variety</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td><input id="bin1Cap"></td>
+<td><input id="bin1Var"></td>
+</tr>
+
+<tr>
+<td>2</td>
+<td><input id="bin2Cap"></td>
+<td><input id="bin2Var"></td>
+</tr>
+
+<tr>
+<td>3</td>
+<td><input id="bin3Cap"></td>
+<td><input id="bin3Var"></td>
+</tr>
+
+<tr>
+<td>4</td>
+<td><input id="bin4Cap"></td>
+<td><input id="bin4Var"></td>
+</tr>
+
+<tr>
+<td>5</td>
+<td><input id="bin5Cap"></td>
+<td><input id="bin5Var"></td>
+</tr>
+
+<tr>
+<td>6</td>
+<td><input id="bin6Cap"></td>
+<td><input id="bin6Var"></td>
+</tr>
+
+<tr>
+<td>7</td>
+<td><input id="bin7Cap"></td>
+<td><input id="bin7Var"></td>
+</tr>
+
+<tr>
+<td>8</td>
+<td><input id="bin8Cap"></td>
+<td><input id="bin8Var"></td>
+</tr>
+
+</table>
+
+</section>
+
+<section>
+
+<h2>Total Juice Balances</h2>
+
+<table>
+
+<tr>
+<th>Variety</th>
+<th>Tonnage</th>
+</tr>
+
+<tr>
+<td><input id="totalJuiceVariety"></td>
+<td><input id="totalJuiceTonnage"></td>
+</tr>
+
+</table>
+
+</section>
+
+<section>
+
+<h2>Search Saved Records</h2>
+
+<input
+type="text"
+id="searchBox"
+placeholder="Search supplier, variety, control number..."
+onkeyup="searchRecords()">
+
+</section>
+
+<section>
+
+<h2>Saved Records</h2>
+
+<div id="records"></div>
+
+</section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
